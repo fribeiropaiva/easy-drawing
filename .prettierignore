@@ -1,0 +1,7 @@
+.next
+node_modules
+coverage
+pnpm-lock.yaml
+public/mock-assets
+PROJECT_PLAN.md
+AGENTS.md

@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-premium: var(--premium);
+  --color-premium-foreground: var(--premium-foreground);
+  --color-premium-soft: var(--premium-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  --font-sans: var(--font-figtree);
+  --font-display: var(--font-fraunces);
+  --font-heading: var(--font-fraunces);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Design tokens (PROJECT_PLAN.md §80).
+ * The site is a drawing table; tutorials are sheets of paper on it, so the
+ * chrome stays neutral and the black-and-white artwork carries the page.
+ */
+:root {
+  --background: #f1f0ec; /* table surface */
+  --foreground: #23231f; /* graphite */
+  --card: #ffffff; /* paper */
+  --card-foreground: #23231f;
+  --popover: #ffffff;
+  --popover-foreground: #23231f;
+  --primary: #1e5aa8; /* ink blue: actions and links */
+  --primary-foreground: #ffffff;
+  --secondary: #e4eef6; /* sketch-blue tint for quiet highlights */
+  --secondary-foreground: #163f78;
+  --muted: #e8e7e2;
+  --muted-foreground: #6b6a63; /* pencil grey */
+  --accent: #eae9e4;
+  --accent-foreground: #23231f;
+  --destructive: #b42318;
+  --border: #dddcd5;
+  --input: #dddcd5;
+  --ring: #1e5aa8;
+  --premium: #8a5c00; /* gold, always paired with a lock icon and the word Premium */
+  --premium-foreground: #ffffff;
+  --premium-soft: #fbf3e0;
+  --success: #1f7a4d;
+  --warning: #b45309;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1,
+  h2 {
+    @apply font-display;
+    font-variation-settings: "SOFT" 40;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* A sheet of paper resting on the table. */
+@utility sheet {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 0 rgb(35 35 31 / 0.03),
+    0 12px 32px -20px rgb(35 35 31 / 0.35);
+}
+
+/* Faint sketch-paper grid, used only in the hero. */
+@utility dot-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+}
