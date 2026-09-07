@@ -1,6 +1,7 @@
 import { Check, Lock } from "lucide-react";
 import Link from "next/link";
 
+import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
 import { TutorialImage } from "@/components/tutorial/tutorial-image";
 import { buttonVariants } from "@/components/ui/button";
 import { DIFFICULTY_LABELS } from "@/lib/tutorials/levels";
@@ -14,6 +15,8 @@ interface PaywallCardProps {
 /**
  * What a visitor without Premium sees for a premium level: the public preview
  * only. The full worksheet is never sent to the browser (PROJECT_PLAN.md §32).
+ * Premium cannot be bought yet (Stripe arrives in Phase 9), so instead of an
+ * unlock button the card says so and points back to the free levels.
  */
 export function PaywallCard({ tutorial, level }: PaywallCardProps) {
   const label = DIFFICULTY_LABELS[level.difficulty];
@@ -45,10 +48,13 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
         )}
       </div>
       <div className="flex flex-col gap-4 md:sticky md:top-6">
-        <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-premium-soft px-2.5 py-1 text-xs font-semibold text-premium">
-          <Lock className="size-3.5" aria-hidden="true" />
-          Premium tutorial
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-premium-soft px-2.5 py-1 text-xs font-semibold text-premium">
+            <Lock className="size-3.5" aria-hidden="true" />
+            Premium tutorial
+          </p>
+          <ComingSoonBadge />
+        </div>
         <h2 id={headingId} className="text-2xl font-medium">
           {label} {subject}
         </h2>
@@ -60,6 +66,10 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
         {level.introduction ? (
           <p className="max-w-prose leading-relaxed">{level.introduction}</p>
         ) : null}
+        <p className="max-w-prose text-sm text-muted-foreground">
+          This level is part of Premium, which is coming soon. When it launches,
+          Premium will include:
+        </p>
         <ul className="space-y-2 text-sm">
           {benefits.map((benefit) => (
             <li key={benefit} className="flex gap-2">
@@ -72,11 +82,15 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
           ))}
         </ul>
         <div className="mt-2 flex flex-col items-start gap-2">
-          <Link href="/pricing" className={buttonVariants({ size: "xl" })}>
-            Unlock with Premium
+          <Link
+            href="/pricing"
+            className={buttonVariants({ variant: "outline", size: "xl" })}
+          >
+            About Premium
           </Link>
           <p className="text-xs text-muted-foreground">
-            Monthly or yearly. Cancel any time.
+            Subscriptions are not open yet. Keep drawing with the free levels in
+            the meantime.
           </p>
         </div>
       </div>

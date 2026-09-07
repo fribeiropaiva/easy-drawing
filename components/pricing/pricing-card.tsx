@@ -9,6 +9,8 @@ interface PricingCardProps {
   description: string;
   benefits: readonly string[];
   action: ReactNode;
+  /** Status pill shown next to the plan name, e.g. "Coming soon". */
+  badge?: ReactNode;
   highlighted?: boolean;
 }
 
@@ -18,6 +20,7 @@ export function PricingCard({
   description,
   benefits,
   action,
+  badge,
   highlighted = false,
 }: PricingCardProps) {
   const headingId = `plan-${name.toLowerCase()}`;
@@ -30,9 +33,12 @@ export function PricingCard({
       )}
     >
       <div>
-        <h2 id={headingId} className="font-sans text-lg font-semibold">
-          {name}
-        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 id={headingId} className="font-sans text-lg font-semibold">
+            {name}
+          </h2>
+          {badge}
+        </div>
         <div className="mt-3">{price}</div>
         <p className="mt-3 text-sm text-muted-foreground">{description}</p>
       </div>

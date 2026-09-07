@@ -38,18 +38,6 @@ function sheet({ w, h, title, subtitle, note, label }) {
 // Only subjects/levels without real artwork. Real sheets are named <slug>-<level>.png.
 const subjects = [
   { slug: "butterfly", title: "Butterfly", levels: ["beginner"], previews: [] },
-  {
-    slug: "dog",
-    title: "Dog",
-    levels: ["beginner", "intermediate", "advanced"],
-    previews: ["intermediate"],
-  },
-  {
-    slug: "lighthouse",
-    title: "Lighthouse",
-    levels: ["beginner", "intermediate"],
-    previews: ["intermediate"],
-  },
   { slug: "palm-tree", title: "Palm Tree", levels: ["beginner"], previews: [] },
 ];
 

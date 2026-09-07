@@ -18,7 +18,7 @@ const STATES: Record<
   },
   premium: {
     icon: Lock,
-    text: "premium",
+    text: "premium, coming soon",
     className: "border-premium-soft bg-premium-soft text-premium",
   },
   "coming-soon": {

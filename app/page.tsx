@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
 import { ProgressionShowcase } from "@/components/tutorial/progression-showcase";
 import { TutorialGrid } from "@/components/tutorial/tutorial-grid";
 import { buttonVariants } from "@/components/ui/button";
@@ -45,7 +46,7 @@ const LEVEL_GUIDE = [
     name: "Advanced",
     access: "Mostly Premium",
     premium: true,
-    text: "Full detail, texture and shading. A few advanced tutorials are free so you can try before you subscribe.",
+    text: "Full detail, texture and shading. A few advanced tutorials are free so you can try the level before Premium launches.",
   },
 ];
 
@@ -87,11 +88,12 @@ export default async function HomePage() {
                 href="/pricing"
                 className={buttonVariants({ variant: "ghost", size: "xl" })}
               >
-                How Premium works
+                About Premium
               </Link>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              Beginner tutorials are free. No account needed.
+              Beginner tutorials are free, no account needed. Premium is coming
+              soon.
             </p>
           </div>
           {showcase ? <ProgressionShowcase tutorial={showcase} /> : null}
@@ -116,7 +118,7 @@ export default async function HomePage() {
       <Section
         id="levels"
         title="The same drawing, three ways"
-        description="Every subject is taught three times. Move up when you are ready: the subject stays the same, the detail grows."
+        description="Every subject is taught three times. Move up when you are ready: the subject stays the same, the detail grows. Premium is coming soon."
       >
         <ol className="grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-stretch">
           {LEVEL_GUIDE.map((level, index) => (
@@ -203,21 +205,27 @@ export default async function HomePage() {
         <Container>
           <div className="grid gap-8 rounded-lg sheet p-8 sm:p-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
             <div>
+              <ComingSoonBadge />
               <h2
                 id="premium-heading"
-                className="text-2xl font-medium tracking-tight sm:text-3xl"
+                className="mt-3 text-2xl font-medium tracking-tight sm:text-3xl"
               >
-                Go further with Premium
+                Premium is coming soon
               </h2>
               <p className="mt-3 max-w-prose text-muted-foreground">
-                Unlock every intermediate and advanced tutorial, plus printable
-                worksheets. Beginner tutorials stay free for everyone.
+                Premium will unlock every intermediate and advanced tutorial,
+                plus printable worksheets. Subscriptions are not open yet, and
+                beginner tutorials stay free for everyone.
               </p>
               <Link
                 href="/pricing"
-                className={buttonVariants({ size: "xl", className: "mt-6" })}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "xl",
+                  className: "mt-6",
+                })}
               >
-                See pricing
+                What Premium will include
               </Link>
             </div>
             <ul className="grid gap-2.5 text-sm">

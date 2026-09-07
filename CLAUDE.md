@@ -2,7 +2,8 @@
 
 Step-by-step drawing tutorial site. Every subject (for example "Coconut Tree") lives at one URL,
 `/draw/coconut-tree`, and has up to three levels: beginner, intermediate, advanced. Freemium:
-beginner is free, intermediate is mixed, advanced is mostly premium.
+beginner is free, intermediate is mixed, advanced is mostly premium. Premium cannot be bought yet
+(Stripe is Phase 9), so every public mention of Premium says it is coming soon.
 
 @AGENTS.md
 
@@ -44,7 +45,10 @@ pnpm check        # lint + typecheck + test
 - `lib/entitlements/can-access-tutorial-level.ts` is the single premium access rule.
 - `lib/env.ts` validates environment variables and is imported by `next.config.ts`.
 - `types/tutorial.ts` holds the domain types (camelCase mirror of the database model).
-- `public/mock-assets/tutorials/<slug>/<level>/<slug>-<level>.png` holds real worksheets (2:3, 1024x1536).
+- Real worksheets are `<slug>-<level>.png` (2:3, 1024x1536) under `public/mock-assets/tutorials/<slug>/`,
+  flat (lighthouse) or in per-level folders (coconut-tree, sunset, boat-on-shore); `assetFolder` in
+  `lib/tutorials/mock-data.ts` picks the layout. Dog breeds are one subject each and keep their sheets
+  together per breed: `tutorials/dog/<breed>/dog-<breed>-<level>.png` (see `dogBreed()`).
   Levels without artwork use labelled placeholder frames (regenerate with
   `node scripts/make-placeholders.mjs public/mock-assets`).
 

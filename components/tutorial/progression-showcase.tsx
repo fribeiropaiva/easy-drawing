@@ -73,7 +73,7 @@ export function ProgressionShowcase({
               {step.availability === "premium" ? (
                 <>
                   <Lock className="size-3.5 text-premium" aria-hidden="true" />
-                  <span className="sr-only">, premium</span>
+                  <span className="sr-only">, premium, coming soon</span>
                 </>
               ) : null}
             </span>

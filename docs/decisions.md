@@ -43,3 +43,19 @@ Short log of decisions that are not obvious from the code. Newest at the bottom.
     for retention). Native scroll-snap list of the existing cards; prev/next buttons are a client-side
     enhancement that only render when the row overflows. `getRelatedTutorials` puts the same category
     first and never returns the current or draft subjects.
+16. **Dog breeds are subjects, not variants of one "Dog" page** (2026-09-07). The spec's model is one
+    subject per URL with three levels, and a breed is what people search for, so `/draw/golden-retriever`,
+    `/draw/pug` and so on each get their own page in the Animals category; the placeholder "Dog" subject
+    is gone. Their sheets are organised by breed rather than by difficulty,
+    `tutorials/dog/<breed>/dog-<breed>-<level>.png`, built by `dogBreed()` in `lib/tutorials/mock-data.ts`
+    through an `assetFolder` override on the generic `tutorial()` helper. Every breed level is free for
+    now for the same reason as decision 13, and `mock-data.test.ts` fails on any worksheet under
+    `public/mock-assets` that no tutorial uses.
+17. **Flat subject folders are fine** (2026-09-07). A subject whose only files are its own three sheets
+    keeps them directly in `tutorials/<slug>/` (lighthouse); the earlier subjects still use per-level
+    folders. Both layouts go through the `assetFolder` option in `lib/tutorials/mock-data.ts`.
+18. **Premium is presented as "coming soon" everywhere** (2026-09-07). Nothing can be bought until
+    Stripe lands in Phase 9, so the pricing page, the homepage, the paywall card and the level pills all
+    say so, using the shared `ComingSoonBadge` (clock icon plus text). The paywall keeps showing the
+    public preview but links to `/pricing` instead of offering an unlock; Phase 9 replaces this copy
+    with the real checkout flow.

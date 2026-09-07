@@ -29,7 +29,7 @@ interface DifficultySelectorProps {
 
 const SR_TEXT: Record<LevelSummary["availability"], string> = {
   free: "",
-  premium: ", premium",
+  premium: ", premium, coming soon",
   "coming-soon": ", coming soon",
 };
 
@@ -199,7 +199,7 @@ function ProgressionCta({
         {next.locked ? (
           <span className="inline-flex items-center gap-1 text-sm text-premium">
             <Lock className="size-3.5" aria-hidden="true" />
-            Premium tutorial
+            Premium tutorial, coming soon
           </span>
         ) : null}
       </div>

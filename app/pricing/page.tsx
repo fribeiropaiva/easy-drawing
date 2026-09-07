@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { PageHeading } from "@/components/layout/page-heading";
 import { PricingCard } from "@/components/pricing/pricing-card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
+import { buttonVariants } from "@/components/ui/button";
 import {
   annualSavingsPercent,
   formatPrice,
@@ -16,7 +17,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata = createPageMetadata({
   title: "Pricing",
   description:
-    "Beginner drawing tutorials are free. Premium unlocks every intermediate and advanced tutorial, plus printable worksheets.",
+    "Beginner drawing tutorials are free. Premium is coming soon and will unlock every intermediate and advanced tutorial, plus printable worksheets.",
   path: "/pricing",
 });
 
@@ -34,7 +35,7 @@ export default function PricingPage() {
     <Container className="py-12 sm:py-16">
       <PageHeading
         title="Pricing"
-        description="Beginner tutorials are free, no account needed. Premium unlocks the intermediate and advanced versions of every subject, plus printable worksheets."
+        description="Beginner tutorials are free, no account needed. Premium is coming soon: it will unlock the intermediate and advanced versions of every subject, plus printable worksheets."
       />
 
       <div className="mt-10 grid max-w-4xl gap-6 lg:grid-cols-2">
@@ -61,6 +62,7 @@ export default function PricingPage() {
         />
         <PricingCard
           name="Premium"
+          badge={<ComingSoonBadge />}
           highlighted
           price={
             <div>
@@ -76,24 +78,13 @@ export default function PricingPage() {
               </p>
             </div>
           }
-          description="Every tutorial, at every level, plus printable worksheets."
+          description="Every tutorial, at every level, plus printable worksheets. Not available yet."
           benefits={premiumBenefits}
           action={
-            <>
-              <Button
-                size="xl"
-                disabled
-                aria-describedby="premium-availability"
-              >
-                Get Premium
-              </Button>
-              <p
-                id="premium-availability"
-                className="text-xs text-muted-foreground"
-              >
-                Premium subscriptions open soon.
-              </p>
-            </>
+            <p className="text-sm text-muted-foreground">
+              Premium subscriptions are not open yet. Keep drawing with the free
+              tutorials and check back soon.
+            </p>
           }
         />
       </div>
@@ -109,10 +100,12 @@ export default function PricingPage() {
             page.
           </li>
           <li>
-            A few advanced tutorials, so you can see what Premium is like before
-            you pay.
+            A few advanced tutorials, so you can see what Premium will be like.
           </li>
         </ul>
+        <p className="mt-4 text-muted-foreground">
+          Everything else becomes part of Premium when it launches.
+        </p>
       </section>
     </Container>
   );
