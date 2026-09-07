@@ -34,4 +34,12 @@ Short log of decisions that are not obvious from the code. Newest at the bottom.
 11. **Vitest for unit tests**, colocated `*.test.ts`, node environment, native tsconfig path resolution.
 12. **Placeholder artwork is a labelled blank frame**, not a drawing (`scripts/make-placeholders.mjs`).
     It exists only to validate layout and the 3:4 worksheet ratio; real worksheets replace it.
-13. **Display-only prices** live in `lib/pricing/plans.ts`. Stripe becomes the source of truth in Phase 9.
+13. **Real worksheets live in `public/mock-assets` for now**, named `<slug>-<level>.png`, exported at
+    1024x1536 (2:3). The beginner sheet doubles as the card thumbnail until dedicated thumbnails exist.
+    Premium levels whose real sheet has no public preview yet are temporarily `free` (see the TODO in
+    `lib/tutorials/mock-data.ts`).
+14. **Display-only prices** live in `lib/pricing/plans.ts`. Stripe becomes the source of truth in Phase 9.
+15. **Related-tutorials carousel on tutorial pages** (a Phase 3 item, pulled forward at the owner's request
+    for retention). Native scroll-snap list of the existing cards; prev/next buttons are a client-side
+    enhancement that only render when the row overflows. `getRelatedTutorials` puts the same category
+    first and never returns the current or draft subjects.

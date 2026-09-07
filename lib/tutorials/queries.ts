@@ -78,6 +78,19 @@ export async function getTutorialBySlug(
   );
 }
 
+/** Other published subjects to draw next: same category first, then the rest, newest first. */
+export async function getRelatedTutorials(
+  tutorial: Pick<Tutorial, "id" | "categoryId">,
+  limit = 8,
+): Promise<TutorialWithCategory[]> {
+  const others = publishedTutorials().filter((t) => t.id !== tutorial.id);
+  const sameCategory = others.filter(
+    (t) => t.categoryId === tutorial.categoryId,
+  );
+  const rest = others.filter((t) => t.categoryId !== tutorial.categoryId);
+  return [...sameCategory, ...rest].slice(0, limit);
+}
+
 export async function getPublishedTutorialSlugs(): Promise<string[]> {
   return publishedTutorials().map((tutorial) => tutorial.slug);
 }

@@ -63,7 +63,7 @@ export function ProgressionShowcase({
                   priority={index === 0}
                 />
               ) : (
-                <div className="grid aspect-3/4 place-items-center text-xs text-muted-foreground">
+                <div className="grid aspect-2/3 place-items-center text-xs text-muted-foreground">
                   Coming soon
                 </div>
               )}

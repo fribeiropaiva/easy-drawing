@@ -44,7 +44,8 @@ pnpm check        # lint + typecheck + test
 - `lib/entitlements/can-access-tutorial-level.ts` is the single premium access rule.
 - `lib/env.ts` validates environment variables and is imported by `next.config.ts`.
 - `types/tutorial.ts` holds the domain types (camelCase mirror of the database model).
-- `public/mock-assets/` holds labelled placeholder worksheets (regenerate with
+- `public/mock-assets/tutorials/<slug>/<level>/<slug>-<level>.png` holds real worksheets (2:3, 1024x1536).
+  Levels without artwork use labelled placeholder frames (regenerate with
   `node scripts/make-placeholders.mjs public/mock-assets`).
 
 ## Conventions

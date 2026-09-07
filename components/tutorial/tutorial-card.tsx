@@ -21,13 +21,11 @@ export function TutorialCard({
           <TutorialImage
             imageKey={tutorial.featuredImageKey}
             alt={`${tutorial.title} drawing tutorial`}
-            width={600}
-            height={800}
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
             priority={priority}
           />
         ) : (
-          <div className="grid aspect-3/4 place-items-center p-4 text-center text-sm text-muted-foreground">
+          <div className="grid aspect-2/3 place-items-center p-4 text-center text-sm text-muted-foreground">
             No thumbnail yet
           </div>
         )}

@@ -39,7 +39,7 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
             priority
           />
         ) : (
-          <div className="grid aspect-3/4 place-items-center p-6 text-center text-sm text-muted-foreground">
+          <div className="grid aspect-2/3 place-items-center p-6 text-center text-sm text-muted-foreground">
             Preview coming soon
           </div>
         )}

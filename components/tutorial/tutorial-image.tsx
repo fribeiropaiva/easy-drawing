@@ -15,14 +15,14 @@ interface TutorialImageProps {
   className?: string;
 }
 
-/** Worksheets are vertical sheets; the default intrinsic size keeps a 3:4 ratio. */
+/** Worksheets are vertical 2:3 sheets (exported at 1024x1536); the default size keeps that ratio. */
 export function TutorialImage({
   imageKey,
   alt,
   sizes,
   priority = false,
-  width = 900,
-  height = 1200,
+  width = 1024,
+  height = 1536,
   className,
 }: TutorialImageProps) {
   const src = getPublicAssetUrl(imageKey);

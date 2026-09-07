@@ -10,6 +10,7 @@ import {
   type LevelView,
 } from "@/components/tutorial/difficulty-selector";
 import { LevelComingSoon } from "@/components/tutorial/level-coming-soon";
+import { RelatedTutorials } from "@/components/tutorial/related-tutorials";
 import { TutorialViewer } from "@/components/tutorial/tutorial-viewer";
 import {
   canAccessTutorialLevel,
@@ -29,6 +30,7 @@ import {
 } from "@/lib/tutorials/levels";
 import {
   getPublishedTutorialSlugs,
+  getRelatedTutorials,
   getTutorialBySlug,
 } from "@/lib/tutorials/queries";
 import type { Difficulty, TutorialWithCategory } from "@/types/tutorial";
@@ -79,6 +81,8 @@ export default async function TutorialPage({
     notFound();
   }
 
+  const related = await getRelatedTutorials(tutorial);
+
   // Phase 7 replaces this with the signed-in user; Phase 8 adds their entitlement.
   const viewer: Viewer | null = null;
 
@@ -124,6 +128,9 @@ export default async function TutorialPage({
             advanced: renderLevelPanel(tutorial, "advanced", viewer),
           }}
         />
+      </div>
+      <div className="mt-16 sm:mt-20">
+        <RelatedTutorials tutorials={related} />
       </div>
     </Container>
   );
