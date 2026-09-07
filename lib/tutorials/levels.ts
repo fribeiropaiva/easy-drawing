@@ -13,7 +13,7 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 };
 
 /** What a visitor can expect from a level before opening it. */
-export type LevelAvailability = "free" | "premium" | "coming-soon";
+export type LevelAvailability = "free" | "pack" | "coming-soon";
 
 export interface LevelSummary {
   difficulty: Difficulty;

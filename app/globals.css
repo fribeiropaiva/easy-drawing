@@ -23,9 +23,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-premium: var(--premium);
-  --color-premium-foreground: var(--premium-foreground);
-  --color-premium-soft: var(--premium-soft);
+  --color-pack: var(--pack);
+  --color-pack-foreground: var(--pack-foreground);
+  --color-pack-soft: var(--pack-soft);
   --color-success: var(--success);
   --color-warning: var(--warning);
 
@@ -66,9 +66,9 @@
   --border: #dddcd5;
   --input: #dddcd5;
   --ring: #1e5aa8;
-  --premium: #8a5c00; /* gold, always paired with a lock icon and the word Premium */
-  --premium-foreground: #ffffff;
-  --premium-soft: #fbf3e0;
+  --pack: #8a5c00; /* gold, always paired with a package icon and the word pack */
+  --pack-foreground: #ffffff;
+  --pack-soft: #fbf3e0;
   --success: #1f7a4d;
   --warning: #b45309;
   --radius: 0.5rem;

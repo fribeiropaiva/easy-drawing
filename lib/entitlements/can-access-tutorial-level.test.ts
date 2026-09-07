@@ -2,27 +2,25 @@ import { describe, expect, it } from "vitest";
 
 import { canAccessTutorialLevel } from "./can-access-tutorial-level";
 
-const free = { accessType: "free" } as const;
-const premium = { accessType: "premium" } as const;
+const free = { id: "lvl_free", accessType: "free" } as const;
+const packLevel = { id: "lvl_pack", accessType: "pack" } as const;
 
 describe("canAccessTutorialLevel", () => {
   it("lets anonymous visitors open free levels", () => {
     expect(canAccessTutorialLevel(null, free)).toBe(true);
   });
 
-  it("blocks anonymous visitors from premium levels", () => {
-    expect(canAccessTutorialLevel(null, premium)).toBe(false);
+  it("blocks anonymous visitors from pack levels", () => {
+    expect(canAccessTutorialLevel(null, packLevel)).toBe(false);
   });
 
-  it("blocks signed-in users without an active subscription", () => {
-    expect(
-      canAccessTutorialLevel({ id: "u1", isPremium: false }, premium),
-    ).toBe(false);
+  it("blocks signed-in viewers who have not bought a pack with the level", () => {
+    const viewer = { id: "u1", unlockedLevelIds: new Set(["lvl_other"]) };
+    expect(canAccessTutorialLevel(viewer, packLevel)).toBe(false);
   });
 
-  it("allows premium subscribers", () => {
-    expect(canAccessTutorialLevel({ id: "u1", isPremium: true }, premium)).toBe(
-      true,
-    );
+  it("allows viewers whose purchased packs include the level", () => {
+    const viewer = { id: "u1", unlockedLevelIds: new Set(["lvl_pack"]) };
+    expect(canAccessTutorialLevel(viewer, packLevel)).toBe(true);
   });
 });

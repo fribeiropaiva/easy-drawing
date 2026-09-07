@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Lock } from "lucide-react";
+import { Clock, Package } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState, type ReactNode } from "react";
 
@@ -15,7 +15,7 @@ import {
 import type { Difficulty } from "@/types/tutorial";
 
 export interface LevelView extends LevelSummary {
-  /** True when this viewer cannot open the level (premium without entitlement). Decided on the server. */
+  /** True when this viewer cannot open the level (a pack level they have not bought). Decided on the server. */
   locked: boolean;
 }
 
@@ -29,7 +29,7 @@ interface DifficultySelectorProps {
 
 const SR_TEXT: Record<LevelSummary["availability"], string> = {
   free: "",
-  premium: ", premium, coming soon",
+  pack: ", in a tutorial pack",
   "coming-soon": ", coming soon",
 };
 
@@ -69,10 +69,10 @@ export function DifficultySelector({
               className="h-full sm:min-w-36 sm:px-4"
             >
               {level.label}
-              {level.availability === "premium" ? (
-                <Lock
+              {level.availability === "pack" ? (
+                <Package
                   data-icon="inline-end"
-                  className="text-premium"
+                  className="text-pack"
                   aria-hidden="true"
                 />
               ) : null}
@@ -197,9 +197,9 @@ function ProgressionCta({
           Try the {nextLabel} version
         </Button>
         {next.locked ? (
-          <span className="inline-flex items-center gap-1 text-sm text-premium">
-            <Lock className="size-3.5" aria-hidden="true" />
-            Premium tutorial, coming soon
+          <span className="inline-flex items-center gap-1 text-sm text-pack">
+            <Package className="size-3.5" aria-hidden="true" />
+            Part of a tutorial pack
           </span>
         ) : null}
       </div>

@@ -1,4 +1,4 @@
-import { Check, Lock } from "lucide-react";
+import { Package } from "lucide-react";
 import Link from "next/link";
 
 import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
@@ -13,20 +13,15 @@ interface PaywallCardProps {
 }
 
 /**
- * What a visitor without Premium sees for a premium level: the public preview
- * only. The full worksheet is never sent to the browser (PROJECT_PLAN.md §32).
- * Premium cannot be bought yet (Stripe arrives in Phase 9), so instead of an
- * unlock button the card says so and points back to the free levels.
+ * What a visitor sees for a pack level they have not bought: the public
+ * preview only. The full worksheet is never sent to the browser
+ * (PROJECT_PLAN.md §32). Packs are not for sale yet, so the card says so and
+ * points back to the free levels instead of offering a purchase.
  */
 export function PaywallCard({ tutorial, level }: PaywallCardProps) {
   const label = DIFFICULTY_LABELS[level.difficulty];
   const subject = tutorial.title.toLowerCase();
   const headingId = `${level.difficulty}-heading`;
-  const benefits = [
-    `The full ${label.toLowerCase()} ${subject} worksheet`,
-    "Every other premium tutorial, at every level",
-    "Printable worksheets and high-resolution downloads",
-  ];
 
   return (
     <section
@@ -49,11 +44,11 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
       </div>
       <div className="flex flex-col gap-4 md:sticky md:top-6">
         <div className="flex flex-wrap items-center gap-2">
-          <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-premium-soft px-2.5 py-1 text-xs font-semibold text-premium">
-            <Lock className="size-3.5" aria-hidden="true" />
-            Premium tutorial
+          <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-pack-soft px-2.5 py-1 text-xs font-semibold text-pack">
+            <Package className="size-3.5" aria-hidden="true" />
+            Tutorial pack
           </p>
-          <ComingSoonBadge />
+          <ComingSoonBadge>Packs coming soon</ComingSoonBadge>
         </div>
         <h2 id={headingId} className="text-2xl font-medium">
           {label} {subject}
@@ -67,31 +62,16 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
           <p className="max-w-prose leading-relaxed">{level.introduction}</p>
         ) : null}
         <p className="max-w-prose text-sm text-muted-foreground">
-          This level is part of Premium, which is coming soon. When it launches,
-          Premium will include:
+          This level will be part of a tutorial pack. Packs are not for sale
+          yet, so keep drawing with the free levels in the meantime.
         </p>
-        <ul className="space-y-2 text-sm">
-          {benefits.map((benefit) => (
-            <li key={benefit} className="flex gap-2">
-              <Check
-                className="mt-0.5 size-4 shrink-0 text-success"
-                aria-hidden="true"
-              />
-              {benefit}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-2 flex flex-col items-start gap-2">
+        <div className="mt-2">
           <Link
-            href="/pricing"
+            href="/packs"
             className={buttonVariants({ variant: "outline", size: "xl" })}
           >
-            About Premium
+            About tutorial packs
           </Link>
-          <p className="text-xs text-muted-foreground">
-            Subscriptions are not open yet. Keep drawing with the free levels in
-            the meantime.
-          </p>
         </div>
       </div>
     </section>

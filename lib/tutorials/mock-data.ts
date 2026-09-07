@@ -93,7 +93,7 @@ interface LevelInput {
   artwork?: ArtworkStatus | "missing";
   /** Worksheet file name inside the level's asset folder. Defaults to the placeholder. */
   file?: string;
-  /** Public preview for premium levels: `true` for the placeholder, or a file name in the level folder. */
+  /** Public preview for pack levels: `true` for the placeholder, or a file name in the level folder. */
   preview?: boolean | string;
 }
 
@@ -171,9 +171,9 @@ function tutorial(input: TutorialInput): Tutorial {
   };
 }
 
-// TODO(content): the levels marked "free for now" are meant to be premium. Switch
-// them back to "premium" and add `preview: "<file>"` once a public preview sheet
-// (for example the first row of steps) has been exported for each of them.
+// Every published level is free until tutorial packs launch (lib/packs.ts). When a
+// level moves into a pack, give it `access: "pack"` plus a `preview: "<file>"` sheet
+// (for example the first row of steps) so visitors still get a public preview.
 
 type DogLevelInput = Omit<LevelInput, "access" | "artwork" | "file"> & {
   access?: AccessType;
@@ -193,8 +193,7 @@ interface DogBreedInput {
  * Each dog breed is its own subject in the Animals category. Its worksheets are
  * organised by breed rather than by difficulty,
  * `tutorials/dog/<breed>/dog-<breed>-<difficulty>.png`, and the easiest sheet
- * doubles as the thumbnail. Every level is free for now: the advanced sheets
- * are meant to be premium once they have a public preview (see the TODO above).
+ * doubles as the thumbnail. Every level is free until packs launch (see above).
  */
 function dogBreed(input: DogBreedInput): Tutorial {
   const file = (difficulty: Difficulty) =>
@@ -253,7 +252,7 @@ export const mockTutorials: Tutorial[] = [
           "The same tree with a thicker, tapered trunk, overlapping fronds, leaf strands and a cluster of coconuts. Six steps, finishing with sand, sea and a distant island.",
       },
       advanced: {
-        access: "free", // free for now, see TODO above
+        access: "free",
         steps: 12,
         file: "coconut-tree-advanced.png",
         intro:
@@ -278,9 +277,9 @@ export const mockTutorials: Tutorial[] = [
         intro:
           "A horizon line, a half-circle sun and its reflection, a few waves, a curved beach and some final details. Six steps.",
       },
-      intermediate: { access: "premium", artwork: "missing" },
+      intermediate: { access: "free", artwork: "missing" },
       advanced: {
-        access: "free", // free for now, see TODO above
+        access: "free",
         steps: 12,
         file: "sunset-advanced.png",
         intro:
@@ -305,7 +304,7 @@ export const mockTutorials: Tutorial[] = [
           "A curved horizon, a wavy shoreline and a simple bowl-shaped hull, then the rim, a post with a rope and sand details. Six steps.",
       },
       intermediate: {
-        access: "free", // free for now, see TODO above
+        access: "free",
         steps: 6,
         file: "boat-on-shore-intermediate.png",
         intro:
@@ -349,14 +348,14 @@ export const mockTutorials: Tutorial[] = [
           "A tall trapezoid, a small roof and platform on top, then windows, horizontal stripes, rocks at the base and a few wavy water lines. Six steps.",
       },
       intermediate: {
-        access: "free", // free for now, see TODO above
+        access: "free",
         steps: 6,
         file: "lighthouse-intermediate.png",
         intro:
           "Block in the composition with a horizon line, then the tower with its platform and lantern room, windows, railing and door, a rocky foreground with a path and fence posts, stone texture and shading, and finally waves, distant land, clouds and birds. Six steps.",
       },
       advanced: {
-        access: "free", // free for now, see TODO above
+        access: "free",
         steps: 12,
         file: "lighthouse-advanced.png",
         intro:

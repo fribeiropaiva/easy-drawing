@@ -1,4 +1,4 @@
-import { Lock } from "lucide-react";
+import { Package } from "lucide-react";
 import Link from "next/link";
 
 import { TutorialImage } from "@/components/tutorial/tutorial-image";
@@ -14,7 +14,7 @@ import type { TutorialWithCategory } from "@/types/tutorial";
 
 /**
  * The product in one picture: the same subject as three sheets, stepping up
- * from beginner to advanced. Premium levels show their public preview only.
+ * from beginner to advanced. Pack levels show their public preview only.
  */
 export function ProgressionShowcase({
   tutorial,
@@ -70,10 +70,10 @@ export function ProgressionShowcase({
             </div>
             <span className="flex items-center gap-1 text-xs font-medium sm:text-sm">
               {step.label}
-              {step.availability === "premium" ? (
+              {step.availability === "pack" ? (
                 <>
-                  <Lock className="size-3.5 text-premium" aria-hidden="true" />
-                  <span className="sr-only">, premium, coming soon</span>
+                  <Package className="size-3.5 text-pack" aria-hidden="true" />
+                  <span className="sr-only">, in a tutorial pack</span>
                 </>
               ) : null}
             </span>

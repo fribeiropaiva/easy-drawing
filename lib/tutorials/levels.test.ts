@@ -35,11 +35,9 @@ describe("getLevelAvailability", () => {
     expect(getLevelAvailability(tutorial([level()]), "beginner")).toBe("free");
   });
 
-  it("is premium for a published premium level", () => {
-    const t = tutorial([
-      level({ difficulty: "advanced", accessType: "premium" }),
-    ]);
-    expect(getLevelAvailability(t, "advanced")).toBe("premium");
+  it("is pack for a published pack level", () => {
+    const t = tutorial([level({ difficulty: "advanced", accessType: "pack" })]);
+    expect(getLevelAvailability(t, "advanced")).toBe("pack");
   });
 
   it("is coming soon when the level row does not exist", () => {
@@ -62,7 +60,7 @@ describe("getLevelAvailability", () => {
 describe("getLevelSummaries", () => {
   it("always returns the three difficulties in order", () => {
     const summaries = getLevelSummaries(
-      tutorial([level({ difficulty: "advanced", accessType: "premium" })]),
+      tutorial([level({ difficulty: "advanced", accessType: "pack" })]),
     );
     expect(summaries.map((s) => s.difficulty)).toEqual([
       "beginner",
@@ -72,7 +70,7 @@ describe("getLevelSummaries", () => {
     expect(summaries.map((s) => s.availability)).toEqual([
       "coming-soon",
       "coming-soon",
-      "premium",
+      "pack",
     ]);
   });
 });
@@ -80,7 +78,7 @@ describe("getLevelSummaries", () => {
 describe("getDefaultDifficulty", () => {
   it("picks the easiest available level", () => {
     const t = tutorial([
-      level({ difficulty: "intermediate", accessType: "premium" }),
+      level({ difficulty: "intermediate", accessType: "pack" }),
       level({ difficulty: "advanced" }),
     ]);
     expect(getDefaultDifficulty(t)).toBe("intermediate");

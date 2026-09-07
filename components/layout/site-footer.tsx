@@ -19,8 +19,8 @@ export async function SiteFooter() {
             {siteConfig.name}
           </p>
           <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-            {siteConfig.tagline}. Beginner tutorials are free, and every subject
-            grows with you through intermediate and advanced versions.
+            {siteConfig.tagline}. Every tutorial is free right now, and every
+            subject grows with you through intermediate and advanced versions.
           </p>
         </div>
         <nav aria-labelledby="footer-explore">

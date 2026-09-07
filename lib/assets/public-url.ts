@@ -3,7 +3,7 @@
  * This is the single place that turns a key into something the browser can load.
  *
  * Phase 1: mock assets live in /public/mock-assets.
- * Phase 6: public assets resolve to the R2 public bucket URL; premium originals
+ * Phase 6: public assets resolve to the R2 public bucket URL; paid (pack) originals
  * are never resolved here and only ever leave the server as short-lived signed URLs.
  */
 export function getPublicAssetUrl(key: string): string {

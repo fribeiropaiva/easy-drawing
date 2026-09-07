@@ -59,3 +59,12 @@ Short log of decisions that are not obvious from the code. Newest at the bottom.
     say so, using the shared `ComingSoonBadge` (clock icon plus text). The paywall keeps showing the
     public preview but links to `/pricing` instead of offering an unlock; Phase 9 replaces this copy
     with the real checkout flow.
+19. **Packs instead of subscriptions** (2026-09-07). The owner dropped the subscription model: paid
+    content will be sold as tutorial packs, themed bundles bought once. Nothing is for sale yet, so
+    every published level is `free` and the site says packs are coming soon (supersedes decision 18).
+    The access type `premium` became `pack`, the gold `premium` tokens became `pack` with a package icon
+    instead of a lock, and `canAccessTutorialLevel` checks the viewer's unlocked level ids (to be derived
+    from purchases once packs exist) instead of a subscription flag. `/pricing` was live, so it now
+    redirects permanently to `/packs`; `lib/pricing` and the pricing cards are gone and `lib/packs.ts`
+    holds the pack copy. PROJECT_PLAN.md §2, §17, §42–§47 and Phase 9 still describe subscriptions
+    and need revising before the database and payment phases.

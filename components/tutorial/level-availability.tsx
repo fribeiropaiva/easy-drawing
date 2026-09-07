@@ -1,4 +1,4 @@
-import { Check, Clock, Lock, type LucideIcon } from "lucide-react";
+import { Check, Clock, Package, type LucideIcon } from "lucide-react";
 
 import {
   getLevelSummaries,
@@ -16,10 +16,10 @@ const STATES: Record<
     text: "free",
     className: "border-border bg-card text-foreground",
   },
-  premium: {
-    icon: Lock,
-    text: "premium, coming soon",
-    className: "border-premium-soft bg-premium-soft text-premium",
+  pack: {
+    icon: Package,
+    text: "in a tutorial pack",
+    className: "border-pack-soft bg-pack-soft text-pack",
   },
   "coming-soon": {
     icon: Clock,
@@ -28,7 +28,7 @@ const STATES: Record<
   },
 };
 
-/** The three levels of a subject with their free / premium / coming-soon state. */
+/** The three levels of a subject with their free / pack / coming-soon state. */
 export function LevelAvailability({
   tutorial,
   className,

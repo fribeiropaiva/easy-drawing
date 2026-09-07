@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Lock } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
 import { ProgressionShowcase } from "@/components/tutorial/progression-showcase";
 import { TutorialGrid } from "@/components/tutorial/tutorial-grid";
 import { buttonVariants } from "@/components/ui/button";
-import { premiumBenefits } from "@/lib/pricing/plans";
+import { freeRightNow } from "@/lib/packs";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/lib/site";
 import {
@@ -29,24 +29,19 @@ export const metadata: Metadata = {
   title: { absolute: `${siteConfig.name} | ${siteConfig.tagline}` },
 };
 
+// Every level is free until tutorial packs launch (lib/packs.ts).
 const LEVEL_GUIDE = [
   {
     name: "Beginner",
-    access: "Free",
-    premium: false,
     text: "Simple shapes and a handful of steps. Finish a drawing you are happy with in one sitting.",
   },
   {
     name: "Intermediate",
-    access: "Free and Premium",
-    premium: true,
     text: "More steps, better proportions and the first details. The same subject, drawn with more confidence.",
   },
   {
     name: "Advanced",
-    access: "Mostly Premium",
-    premium: true,
-    text: "Full detail, texture and shading. A few advanced tutorials are free so you can try the level before Premium launches.",
+    text: "Full detail, texture and shading, for when you want a drawing to be proud of.",
   },
 ];
 
@@ -85,15 +80,15 @@ export default async function HomePage() {
                 Start drawing
               </Link>
               <Link
-                href="/pricing"
+                href="/packs"
                 className={buttonVariants({ variant: "ghost", size: "xl" })}
               >
-                About Premium
+                Tutorial packs
               </Link>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
-              Beginner tutorials are free, no account needed. Premium is coming
-              soon.
+              Every tutorial is free right now, no account needed. Tutorial
+              packs are coming soon.
             </p>
           </div>
           {showcase ? <ProgressionShowcase tutorial={showcase} /> : null}
@@ -118,7 +113,7 @@ export default async function HomePage() {
       <Section
         id="levels"
         title="The same drawing, three ways"
-        description="Every subject is taught three times. Move up when you are ready: the subject stays the same, the detail grows. Premium is coming soon."
+        description="Every subject is taught three times. Move up when you are ready: the subject stays the same, the detail grows."
       >
         <ol className="grid gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-stretch">
           {LEVEL_GUIDE.map((level, index) => (
@@ -134,19 +129,9 @@ export default async function HomePage() {
                   <h3 className="font-display text-xl font-medium">
                     {level.name}
                   </h3>
-                  <span
-                    className={
-                      level.premium
-                        ? "inline-flex items-center gap-1 rounded-full bg-premium-soft px-2 py-0.5 text-xs font-medium text-premium"
-                        : "inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
-                    }
-                  >
-                    {level.premium ? (
-                      <Lock className="size-3" aria-hidden="true" />
-                    ) : (
-                      <Check className="size-3" aria-hidden="true" />
-                    )}
-                    {level.access}
+                  <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground">
+                    <Check className="size-3" aria-hidden="true" />
+                    Free
                   </span>
                 </div>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -201,44 +186,47 @@ export default async function HomePage() {
         <TutorialGrid tutorials={newest} />
       </Section>
 
-      <section aria-labelledby="premium-heading" className="py-12 sm:py-16">
+      <section aria-labelledby="packs-heading" className="py-12 sm:py-16">
         <Container>
           <div className="grid gap-8 rounded-lg sheet p-8 sm:p-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
             <div>
               <ComingSoonBadge />
               <h2
-                id="premium-heading"
+                id="packs-heading"
                 className="mt-3 text-2xl font-medium tracking-tight sm:text-3xl"
               >
-                Premium is coming soon
+                Tutorial packs are coming soon
               </h2>
               <p className="mt-3 max-w-prose text-muted-foreground">
-                Premium will unlock every intermediate and advanced tutorial,
-                plus printable worksheets. Subscriptions are not open yet, and
-                beginner tutorials stay free for everyone.
+                We are putting together themed packs of tutorials that you buy
+                once and keep. Until they launch, every tutorial on{" "}
+                {siteConfig.name} is free, at every level.
               </p>
               <Link
-                href="/pricing"
+                href="/packs"
                 className={buttonVariants({
                   variant: "outline",
                   size: "xl",
                   className: "mt-6",
                 })}
               >
-                What Premium will include
+                About tutorial packs
               </Link>
             </div>
-            <ul className="grid gap-2.5 text-sm">
-              {premiumBenefits.map((benefit) => (
-                <li key={benefit} className="flex gap-2">
-                  <Check
-                    className="mt-0.5 size-4 shrink-0 text-success"
-                    aria-hidden="true"
-                  />
-                  {benefit}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <p className="text-sm font-semibold">Free right now</p>
+              <ul className="mt-3 grid gap-2.5 text-sm">
+                {freeRightNow.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <Check
+                      className="mt-0.5 size-4 shrink-0 text-success"
+                      aria-hidden="true"
+                    />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </Container>
       </section>

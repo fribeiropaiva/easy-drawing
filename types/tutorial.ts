@@ -8,7 +8,8 @@
 
 export type Difficulty = "beginner" | "intermediate" | "advanced";
 
-export type AccessType = "free" | "premium";
+/** "pack" levels belong to a paid tutorial pack. Nothing is for sale yet (lib/packs.ts). */
+export type AccessType = "free" | "pack";
 
 export type TutorialStatus = "draft" | "published" | "archived";
 
@@ -29,11 +30,11 @@ export interface TutorialLevel {
   tutorialId: string;
   difficulty: Difficulty;
   accessType: AccessType;
-  /** The full worksheet. Protected when accessType is "premium". */
+  /** The full worksheet. Protected when accessType is "pack". */
   tutorialImageKey: string | null;
-  /** Deliberately created public preview for premium levels. */
+  /** Deliberately created public preview for pack levels. */
   previewImageKey: string | null;
-  /** Printable PDF. Protected when accessType is "premium". */
+  /** Printable PDF. Protected when accessType is "pack". */
   printableFileKey: string | null;
   introduction: string | null;
   stepCount: number | null;

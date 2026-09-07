@@ -71,7 +71,7 @@ export default async function DrawPage({ searchParams }: PageProps<"/draw">) {
         }
         description={
           activeCategory?.description ??
-          "Pick a subject, choose your level and start drawing. Beginner tutorials are free."
+          "Pick a subject, choose your level and start drawing. Every tutorial is free right now."
         }
       />
       <nav aria-label="Filter by subject" className="mt-8">
