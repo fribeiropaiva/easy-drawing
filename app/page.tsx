@@ -73,12 +73,12 @@ export default async function HomePage() {
         <Container className="grid gap-12 py-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:py-24">
           <div className="max-w-xl">
             <h1 className="text-4xl leading-[1.05] font-medium tracking-tight sm:text-5xl lg:text-6xl">
-              Learn to draw, one step at a time.
+              {siteConfig.tagline}.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              Pick your level and follow clear step-by-step tutorials. Start
-              with a free beginner version, then draw the same subject again
-              with more detail at intermediate and advanced.
+              Pick your level and follow along, one numbered step at a time.
+              Start with a free beginner version, then draw the same subject
+              again with more detail at intermediate and advanced.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link href="/draw" className={buttonVariants({ size: "xl" })}>

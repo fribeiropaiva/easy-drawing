@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Easy Drawing",
-  tagline: "Learn to draw, one step at a time",
+  tagline: "Have fun drawing with easy step-by-step tutorials",
   description:
     "Step-by-step drawing tutorials for every skill level. Learn a subject as a beginner, then draw it again at intermediate and advanced levels.",
   nav: [
