@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { RelatedClickTracker } from "@/components/analytics/related-click-tracker";
 import { Carousel } from "@/components/shared/carousel";
 import { TutorialCard } from "@/components/tutorial/tutorial-card";
 import type { TutorialWithCategory } from "@/types/tutorial";
@@ -7,14 +8,18 @@ import type { TutorialWithCategory } from "@/types/tutorial";
 /** "What should I draw next?" (PROJECT_PLAN.md §66, §95): other subjects, same category first. */
 export function RelatedTutorials({
   tutorials,
+  fromSlug,
 }: {
   tutorials: TutorialWithCategory[];
+  /** The subject being viewed, recorded as the origin of related clicks. */
+  fromSlug: string;
 }) {
   if (tutorials.length === 0) {
     return null;
   }
   return (
     <section aria-labelledby="related-heading">
+      <RelatedClickTracker fromSlug={fromSlug}>
       <Carousel
         label="More tutorials"
         heading={
@@ -35,6 +40,7 @@ export function RelatedTutorials({
           node: <TutorialCard tutorial={tutorial} />,
         }))}
       />
+      </RelatedClickTracker>
       <Link
         href="/draw"
         className="mt-2 inline-block text-sm font-medium underline decoration-border underline-offset-4 hover:decoration-foreground"

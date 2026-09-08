@@ -1,16 +1,24 @@
 import { z } from "zod";
 
+import { DEFAULT_POSTHOG_HOST } from "./analytics/hosts";
+
 /**
  * Environment variables, validated once when the module is first imported.
  *
- * Phase 1 only needs the public site URL. Later phases add server-only keys
- * (Supabase, Stripe, R2, Resend) in a separate schema that is never imported
- * from client code.
+ * Only public variables so far: the site URL and the optional analytics key.
+ * Later phases add server-only keys (Supabase, R2, payments, Resend) in a
+ * separate schema that is never imported from client code.
  */
 const publicSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.url({
     error: "must be an absolute URL such as https://example.com",
   }),
+  /** PostHog project key. Optional: without it nothing is sent (see lib/analytics). */
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().min(1).optional(),
+  /** PostHog ingestion host; the EU cloud unless overridden. */
+  NEXT_PUBLIC_POSTHOG_HOST: z
+    .url({ error: "must be an absolute URL such as https://eu.i.posthog.com" })
+    .default(DEFAULT_POSTHOG_HOST),
 });
 
 function inferSiteUrl(): string {
@@ -41,4 +49,6 @@ export function parseEnv<TSchema extends z.ZodType>(
 
 export const publicEnv = parseEnv(publicSchema, {
   NEXT_PUBLIC_SITE_URL: inferSiteUrl(),
+  NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY || undefined,
+  NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST || undefined,
 });

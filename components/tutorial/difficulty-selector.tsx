@@ -6,6 +6,7 @@ import { useRef, useState, type ReactNode } from "react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { track } from "@/lib/analytics";
 import {
   DIFFICULTY_LABELS,
   getNextDifficulty,
@@ -20,6 +21,8 @@ export interface LevelView extends LevelSummary {
 }
 
 interface DifficultySelectorProps {
+  /** Subject slug, recorded with every level selection. */
+  slug: string;
   title: string;
   levels: LevelView[];
   defaultDifficulty: Difficulty;
@@ -34,6 +37,7 @@ const SR_TEXT: Record<LevelSummary["availability"], string> = {
 };
 
 export function DifficultySelector({
+  slug,
   title,
   levels,
   defaultDifficulty,
@@ -42,8 +46,21 @@ export function DifficultySelector({
   const [difficulty, setDifficulty] = useState<Difficulty>(defaultDifficulty);
   const topRef = useRef<HTMLDivElement>(null);
 
-  function jumpTo(next: Difficulty) {
+  function select(next: Difficulty, source: "tabs" | "next_level_cta") {
     setDifficulty(next);
+    const level = levels.find((item) => item.difficulty === next);
+    if (level) {
+      track("difficulty_selected", {
+        slug,
+        difficulty: next,
+        availability: level.availability,
+        source,
+      });
+    }
+  }
+
+  function jumpTo(next: Difficulty) {
+    select(next, "next_level_cta");
     topRef.current?.scrollIntoView({ block: "start" });
   }
 
@@ -53,7 +70,7 @@ export function DifficultySelector({
         value={difficulty}
         onValueChange={(value) => {
           if (isDifficulty(value)) {
-            setDifficulty(value);
+            select(value, "tabs");
           }
         }}
       >

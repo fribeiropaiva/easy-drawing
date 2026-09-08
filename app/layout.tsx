@@ -3,6 +3,7 @@ import { Figtree, Fraunces } from "next/font/google";
 
 import "./globals.css";
 
+import { Analytics } from "@/components/analytics/analytics";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { publicEnv } from "@/lib/env";
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );

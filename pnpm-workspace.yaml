@@ -1,3 +1,5 @@
 allowBuilds:
+  # core-js (pulled in by posthog-js) only prints a funding banner in its postinstall.
+  core-js: false
   sharp: false
   unrs-resolver: false

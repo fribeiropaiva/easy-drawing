@@ -1,6 +1,7 @@
 import { Package } from "lucide-react";
-import Link from "next/link";
 
+import { TrackEvent } from "@/components/analytics/track-event";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
 import { TutorialImage } from "@/components/tutorial/tutorial-image";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { DIFFICULTY_LABELS } from "@/lib/tutorials/levels";
 import type { Tutorial, TutorialLevel } from "@/types/tutorial";
 
 interface PaywallCardProps {
-  tutorial: Pick<Tutorial, "title">;
+  tutorial: Pick<Tutorial, "title" | "slug">;
   level: TutorialLevel;
 }
 
@@ -28,6 +29,10 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
       aria-labelledby={headingId}
       className="grid gap-8 md:grid-cols-2 md:items-start"
     >
+      <TrackEvent
+        name="pack_preview_viewed"
+        properties={{ slug: tutorial.slug, difficulty: level.difficulty }}
+      />
       <div className="overflow-hidden rounded-md sheet">
         {level.previewImageKey ? (
           <TutorialImage
@@ -66,12 +71,14 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
           yet, so keep drawing with the free levels in the meantime.
         </p>
         <div className="mt-2">
-          <Link
+          <TrackedLink
             href="/packs"
+            event="packs_link_clicked"
+            properties={{ source: "pack_card" }}
             className={buttonVariants({ variant: "outline", size: "xl" })}
           >
             About tutorial packs
-          </Link>
+          </TrackedLink>
         </div>
       </div>
     </section>

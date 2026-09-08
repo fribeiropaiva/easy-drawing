@@ -45,6 +45,10 @@ pnpm check        # lint + typecheck + test
 - `lib/entitlements/can-access-tutorial-level.ts` is the single access rule for pack levels.
 - `lib/packs.ts` is the only place that describes the pack offer; nothing is for sale yet.
 - `lib/env.ts` validates environment variables and is imported by `next.config.ts`.
+- `lib/analytics` is the only code that talks to the analytics provider (PostHog, cookieless, proxied
+  through `/ingest`). Events are typed in `lib/analytics/events.ts`; client code calls `track()`,
+  Server Components render `<TrackEvent>` or `<TrackedLink>` from `components/analytics`. Without
+  `NEXT_PUBLIC_POSTHOG_KEY` nothing is sent (development logs to the console).
 - `types/tutorial.ts` holds the domain types (camelCase mirror of the database model).
 - Real worksheets are `<slug>-<level>.png` (2:3, 1024x1536) under `public/mock-assets/tutorials/<slug>/`,
   flat (lighthouse) or in per-level folders (coconut-tree, sunset, boat-on-shore); `assetFolder` in
@@ -62,5 +66,6 @@ pnpm check        # lint + typecheck + test
 
 ## Phase status
 
-- Phase 1 (foundation, mock data) is complete.
+- Phase 1 (foundation, mock data) is complete. The analytics abstraction (Phase 12) was pulled
+  forward on 2026-09-07 at the owner's request.
 - Next: Phase 2 (Supabase schema, migrations, RLS, seed) after explicit approval.

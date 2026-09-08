@@ -2,6 +2,7 @@ import { ArrowRight, Check } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { ComingSoonBadge } from "@/components/shared/coming-soon-badge";
@@ -79,12 +80,14 @@ export default async function HomePage() {
               <Link href="/draw" className={buttonVariants({ size: "xl" })}>
                 Start drawing
               </Link>
-              <Link
+              <TrackedLink
                 href="/packs"
+                event="packs_link_clicked"
+                properties={{ source: "hero" }}
                 className={buttonVariants({ variant: "ghost", size: "xl" })}
               >
                 Tutorial packs
-              </Link>
+              </TrackedLink>
             </div>
             <p className="mt-6 text-sm text-muted-foreground">
               Every tutorial is free right now, no account needed. Tutorial
@@ -202,8 +205,10 @@ export default async function HomePage() {
                 once and keep. Until they launch, every tutorial on{" "}
                 {siteConfig.name} is free, at every level.
               </p>
-              <Link
+              <TrackedLink
                 href="/packs"
+                event="packs_link_clicked"
+                properties={{ source: "home_section" }}
                 className={buttonVariants({
                   variant: "outline",
                   size: "xl",
@@ -211,7 +216,7 @@ export default async function HomePage() {
                 })}
               >
                 About tutorial packs
-              </Link>
+              </TrackedLink>
             </div>
             <div>
               <p className="text-sm font-semibold">Free right now</p>

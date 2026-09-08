@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { TrackEvent } from "@/components/analytics/track-event";
 import { Container } from "@/components/layout/container";
 import { PageHeading } from "@/components/layout/page-heading";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -63,6 +64,12 @@ export default async function DrawPage({ searchParams }: PageProps<"/draw">) {
 
   return (
     <Container className="py-12 sm:py-16">
+      {activeCategory ? (
+        <TrackEvent
+          name="category_viewed"
+          properties={{ category: activeCategory.slug }}
+        />
+      ) : null}
       <PageHeading
         title={
           activeCategory

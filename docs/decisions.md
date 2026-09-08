@@ -68,3 +68,14 @@ Short log of decisions that are not obvious from the code. Newest at the bottom.
     redirects permanently to `/packs`; `lib/pricing` and the pricing cards are gone and `lib/packs.ts`
     holds the pack copy. PROJECT_PLAN.md §2, §17, §42–§47 and Phase 9 still describe subscriptions
     and need revising before the database and payment phases.
+20. **PostHog behind an analytics abstraction** (2026-09-07, Phase 12 pulled forward at the owner's
+    request). `lib/analytics` owns the typed event catalogue (`tutorial_viewed`, `difficulty_selected`,
+    `related_tutorial_clicked`, `category_viewed`, `packs_link_clicked`, `pack_preview_viewed`; the
+    spec's subscription events are gone), a queue so early events survive SDK loading, and a provider
+    interface with PostHog, console (development) and no-op (no key) implementations. PostHog is loaded
+    on demand in the browser, runs cookieless (`persistence: "memory"`, so no consent banner, at the
+    cost of not recognising visitors across full page loads), sends page views from the App Router
+    on every route change, and is proxied through `/ingest` so ad blockers do not drop events. That
+    proxy needs `skipTrailingSlashRedirect`, so `next.config.ts` adds its own trailing-slash redirect
+    for every other path. The EU cloud is the default host. Search Console stays a dashboard-side
+    setup with no code.

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { TrackEvent } from "@/components/analytics/track-event";
 import { Container } from "@/components/layout/container";
 import { PaywallCard } from "@/components/paywall/paywall-card";
 import { Breadcrumbs } from "@/components/tutorial/breadcrumbs";
@@ -97,6 +98,18 @@ export default async function TutorialPage({
 
   return (
     <Container className="mx-auto max-w-3xl py-8 sm:py-12">
+      <TrackEvent
+        name="tutorial_viewed"
+        properties={{
+          slug: tutorial.slug,
+          title: tutorial.title,
+          category: tutorial.category.slug,
+          default_level: getDefaultDifficulty(tutorial),
+          available_levels: levels
+            .filter((level) => level.availability !== "coming-soon")
+            .map((level) => level.difficulty),
+        }}
+      />
       <Breadcrumbs
         items={[
           { label: "Tutorials", href: "/draw" },
@@ -119,6 +132,7 @@ export default async function TutorialPage({
       </div>
       <div className="mt-8 sm:mt-10">
         <DifficultySelector
+          slug={tutorial.slug}
           title={tutorial.title}
           levels={levels}
           defaultDifficulty={getDefaultDifficulty(tutorial)}
@@ -130,7 +144,7 @@ export default async function TutorialPage({
         />
       </div>
       <div className="mt-16 sm:mt-20">
-        <RelatedTutorials tutorials={related} />
+        <RelatedTutorials tutorials={related} fromSlug={tutorial.slug} />
       </div>
     </Container>
   );
