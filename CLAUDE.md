@@ -46,12 +46,13 @@ pnpm check        # lint + typecheck + test
 - `lib/packs.ts` is the only place that describes the pack offer; nothing is for sale yet.
 - `lib/env.ts` validates environment variables and is imported by `next.config.ts`.
 - `types/tutorial.ts` holds the domain types (camelCase mirror of the database model).
-- Real worksheets are `<slug>-<level>.png` (2:3, 1024x1536) under `public/mock-assets/tutorials/<slug>/`,
-  flat (lighthouse) or in per-level folders (coconut-tree, sunset, boat-on-shore); `assetFolder` in
-  `lib/tutorials/mock-data.ts` picks the layout. Dog breeds are one subject each and keep their sheets
-  together per breed: `tutorials/dog/<breed>/dog-<breed>-<level>.png` (see `dogBreed()`).
-  Levels without artwork use labelled placeholder frames (regenerate with
-  `node scripts/make-placeholders.mjs public/mock-assets`).
+- Real worksheets are `<slug>-<level>.png` (2:3, 1024x1536) under `public/mock-assets/tutorials/`,
+  organised by subject, not difficulty: flat in `tutorials/<slug>/` (lighthouse, boat-on-shore and
+  every single animal, see `animal()`), or per breed for dogs and cats,
+  `tutorials/<species>/<breed>/<species>-<breed>-<level>.png` (see `dogBreed()` / `catBreed()`; a
+  cat's slug is `<breed>-cat`). Only coconut-tree and sunset still use per-level folders;
+  `assetFolder` in `lib/tutorials/mock-data.ts` picks the layout. Levels without artwork use labelled
+  placeholder frames (regenerate with `node scripts/make-placeholders.mjs public/mock-assets`).
 
 ## Conventions
 
