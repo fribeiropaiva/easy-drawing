@@ -3,15 +3,31 @@ import { z } from "zod";
 /**
  * Environment variables, validated once when the module is first imported.
  *
- * Phase 1 only needs the public site URL. Later phases add server-only keys
- * (Supabase, Stripe, R2, Resend) in a separate schema that is never imported
- * from client code.
+ * Everything here is read on the server: no key carries the `NEXT_PUBLIC_`
+ * prefix, so nothing in this file is bundled for the browser. Import it from
+ * Server Components, route handlers and `next.config.ts` only.
+ *
+ * Later phases add the server-only keys (Supabase service role, Stripe, R2,
+ * Resend) to this schema, and the genuinely browser-side Supabase keys
+ * (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+ * PROJECT_PLAN.md §74) to a separate public schema.
  */
-const publicSchema = z.object({
-  NEXT_PUBLIC_SITE_URL: z.url({
+const serverSchema = z.object({
+  SITE_URL: z.url({
     error: "must be an absolute URL such as https://example.com",
   }),
 });
+
+/**
+ * A Client Component that imported this file would find `process.env.SITE_URL`
+ * undefined, fall through to the localhost default below and quietly render
+ * localhost canonicals. Fail loudly instead: pass the value down as a prop.
+ */
+if (typeof window !== "undefined") {
+  throw new Error(
+    "lib/env.ts is server-only: SITE_URL is never sent to the browser.",
+  );
+}
 
 type SiteUrlEnv = Readonly<Record<string, string | undefined>>;
 
@@ -26,12 +42,12 @@ type SiteUrlEnv = Readonly<Record<string, string | undefined>>;
  * URL is the right answer and nothing is indexed.
  */
 export function inferSiteUrl(env: SiteUrlEnv = process.env): string {
-  if (env.NEXT_PUBLIC_SITE_URL) {
-    return env.NEXT_PUBLIC_SITE_URL;
+  if (env.SITE_URL) {
+    return env.SITE_URL;
   }
   if (env.VERCEL_ENV === "production") {
     throw new Error(
-      "NEXT_PUBLIC_SITE_URL must be set on production deployments: it is the canonical origin for every canonical link, sitemap entry and Open Graph URL.",
+      "SITE_URL must be set on production deployments: it is the canonical origin for every canonical link, sitemap entry and Open Graph URL.",
     );
   }
   const vercelHost = env.VERCEL_PROJECT_PRODUCTION_URL ?? env.VERCEL_URL;
@@ -55,6 +71,6 @@ export function parseEnv<TSchema extends z.ZodType>(
   return result.data;
 }
 
-export const publicEnv = parseEnv(publicSchema, {
-  NEXT_PUBLIC_SITE_URL: inferSiteUrl(),
+export const serverEnv = parseEnv(serverSchema, {
+  SITE_URL: inferSiteUrl(),
 });

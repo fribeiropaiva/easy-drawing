@@ -4,10 +4,10 @@ import { z } from "zod";
 import { inferSiteUrl, parseEnv } from "./env";
 
 describe("inferSiteUrl", () => {
-  it("prefers an explicit NEXT_PUBLIC_SITE_URL", () => {
+  it("prefers an explicit SITE_URL", () => {
     expect(
       inferSiteUrl({
-        NEXT_PUBLIC_SITE_URL: "https://www.easydrawing.fun",
+        SITE_URL: "https://www.easydrawing.fun",
         VERCEL_ENV: "production",
         VERCEL_URL: "easy-drawing-abc123.vercel.app",
       }),
@@ -20,7 +20,7 @@ describe("inferSiteUrl", () => {
         VERCEL_ENV: "production",
         VERCEL_PROJECT_PRODUCTION_URL: "easydrawing.fun",
       }),
-    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    ).toThrow(/SITE_URL/);
   });
 
   it("uses the production domain on preview deployments, so previews point at it", () => {
@@ -40,9 +40,7 @@ describe("inferSiteUrl", () => {
 
 describe("parseEnv", () => {
   it("names the offending variable when validation fails", () => {
-    const schema = z.object({ NEXT_PUBLIC_SITE_URL: z.url() });
-    expect(() => parseEnv(schema, { NEXT_PUBLIC_SITE_URL: "nope" })).toThrow(
-      /NEXT_PUBLIC_SITE_URL/,
-    );
+    const schema = z.object({ SITE_URL: z.url() });
+    expect(() => parseEnv(schema, { SITE_URL: "nope" })).toThrow(/SITE_URL/);
   });
 });

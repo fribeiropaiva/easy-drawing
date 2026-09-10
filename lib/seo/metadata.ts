@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { publicEnv } from "@/lib/env";
+import { serverEnv } from "@/lib/env";
 import { siteConfig } from "@/lib/site";
 
 /**
@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/site";
  * site hands to a crawler (canonical, Open Graph, sitemap, robots) is built
  * from this, so there is a single place to get the production host right.
  */
-export const siteUrl = publicEnv.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "");
+export const siteUrl = serverEnv.SITE_URL.replace(/\/+$/, "");
 
 /**
  * Absolute URL for a public path. "/" resolves to the bare origin so the

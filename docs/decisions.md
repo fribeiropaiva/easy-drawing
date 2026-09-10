@@ -29,8 +29,12 @@ Short log of decisions that are not obvious from the code. Newest at the bottom.
    premium gold `#8a5c00` on `#fbf3e0`. No dark mode. Fonts: Fraunces (display, `SOFT` axis) and
    Figtree (body) via `next/font/google`, self-hosted at build time.
 10. **Environment validation with zod** in `lib/env.ts`, imported by `next.config.ts` so a bad
-    configuration fails the build. `NEXT_PUBLIC_SITE_URL` falls back to the Vercel URL, then
-    `http://localhost:3000`.
+    configuration fails the build. `SITE_URL` names the canonical origin. It drops the plan's
+    `NEXT_PUBLIC_` prefix (§74): the value is public — it is printed in every canonical tag — but
+    only server code reads it, so the prefix bought nothing and made Vercel flag the variable as
+    browser-exposed. It is required on production deployments (a missing value fails the build
+    rather than guessing a host that redirects); preview and local builds fall back to the Vercel
+    URL, then `http://localhost:3000`.
 11. **Vitest for unit tests**, colocated `*.test.ts`, node environment, native tsconfig path resolution.
 12. **Placeholder artwork is a labelled blank frame**, not a drawing (`scripts/make-placeholders.mjs`).
     It exists only to validate layout and the 3:4 worksheet ratio; real worksheets replace it.
