@@ -5,7 +5,7 @@ import "./globals.css";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { publicEnv } from "@/lib/env";
+import { siteUrl } from "@/lib/seo/metadata";
 import { siteConfig } from "@/lib/site";
 
 const figtree = Figtree({
@@ -22,7 +22,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(publicEnv.NEXT_PUBLIC_SITE_URL),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${siteConfig.name}: ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,

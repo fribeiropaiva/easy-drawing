@@ -10,6 +10,8 @@ import type { Tutorial, TutorialLevel } from "@/types/tutorial";
 interface PaywallCardProps {
   tutorial: Pick<Tutorial, "title">;
   level: TutorialLevel;
+  /** Set only for the level the page opens on; the hidden levels load lazily. */
+  priority?: boolean;
 }
 
 /**
@@ -18,7 +20,11 @@ interface PaywallCardProps {
  * (PROJECT_PLAN.md §32). Packs are not for sale yet, so the card says so and
  * points back to the free levels instead of offering a purchase.
  */
-export function PaywallCard({ tutorial, level }: PaywallCardProps) {
+export function PaywallCard({
+  tutorial,
+  level,
+  priority = false,
+}: PaywallCardProps) {
   const label = DIFFICULTY_LABELS[level.difficulty];
   const subject = tutorial.title.toLowerCase();
   const headingId = `${level.difficulty}-heading`;
@@ -34,7 +40,7 @@ export function PaywallCard({ tutorial, level }: PaywallCardProps) {
             imageKey={level.previewImageKey}
             alt={`Preview of the ${label.toLowerCase()} ${subject} worksheet`}
             sizes="(min-width: 768px) 50vw, 100vw"
-            priority
+            priority={priority}
           />
         ) : (
           <div className="grid aspect-2/3 place-items-center p-6 text-center text-sm text-muted-foreground">

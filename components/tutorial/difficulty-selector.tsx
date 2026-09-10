@@ -87,6 +87,10 @@ export function DifficultySelector({
           <TabsContent
             key={level.difficulty}
             value={level.difficulty}
+            // Every level stays in the HTML, hidden rather than unmounted, so the
+            // whole subject (all three worksheets and their text) is server-rendered
+            // on the one canonical URL instead of only the level that happens to be open.
+            keepMounted
             className="mt-6 text-base"
           >
             {panels[level.difficulty]}

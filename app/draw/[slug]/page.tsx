@@ -61,15 +61,21 @@ function renderLevelPanel(
   tutorial: TutorialWithCategory,
   difficulty: Difficulty,
   viewer: Viewer | null,
+  /** True for the level the page opens on: all three are rendered, only this one preloads. */
+  priority: boolean,
 ): ReactNode {
   const level = getLevel(tutorial, difficulty);
   if (!hasPublishedArtwork(level)) {
     return <LevelComingSoon tutorial={tutorial} difficulty={difficulty} />;
   }
   if (!canAccessTutorialLevel(viewer, level)) {
-    return <PaywallCard tutorial={tutorial} level={level} />;
+    return (
+      <PaywallCard tutorial={tutorial} level={level} priority={priority} />
+    );
   }
-  return <TutorialViewer tutorial={tutorial} level={level} />;
+  return (
+    <TutorialViewer tutorial={tutorial} level={level} priority={priority} />
+  );
 }
 
 export default async function TutorialPage({
@@ -86,6 +92,7 @@ export default async function TutorialPage({
   // Phase 7 replaces this with the signed-in user; Phase 8 adds their entitlement.
   const viewer: Viewer | null = null;
 
+  const defaultDifficulty = getDefaultDifficulty(tutorial);
   const levels: LevelView[] = getLevelSummaries(tutorial).map((summary) => {
     const level = getLevel(tutorial, summary.difficulty);
     return {
@@ -121,11 +128,26 @@ export default async function TutorialPage({
         <DifficultySelector
           title={tutorial.title}
           levels={levels}
-          defaultDifficulty={getDefaultDifficulty(tutorial)}
+          defaultDifficulty={defaultDifficulty}
           panels={{
-            beginner: renderLevelPanel(tutorial, "beginner", viewer),
-            intermediate: renderLevelPanel(tutorial, "intermediate", viewer),
-            advanced: renderLevelPanel(tutorial, "advanced", viewer),
+            beginner: renderLevelPanel(
+              tutorial,
+              "beginner",
+              viewer,
+              defaultDifficulty === "beginner",
+            ),
+            intermediate: renderLevelPanel(
+              tutorial,
+              "intermediate",
+              viewer,
+              defaultDifficulty === "intermediate",
+            ),
+            advanced: renderLevelPanel(
+              tutorial,
+              "advanced",
+              viewer,
+              defaultDifficulty === "advanced",
+            ),
           }}
         />
       </div>

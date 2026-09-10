@@ -10,10 +10,16 @@ import type { Tutorial, TutorialLevel } from "@/types/tutorial";
 interface TutorialViewerProps {
   tutorial: Pick<Tutorial, "title">;
   level: TutorialLevel;
+  /** Set only for the level the page opens on; the hidden levels load lazily. */
+  priority?: boolean;
 }
 
 /** The full worksheet for a level the viewer is allowed to see. */
-export function TutorialViewer({ tutorial, level }: TutorialViewerProps) {
+export function TutorialViewer({
+  tutorial,
+  level,
+  priority = false,
+}: TutorialViewerProps) {
   if (!level.tutorialImageKey) {
     return null;
   }
@@ -41,7 +47,7 @@ export function TutorialViewer({ tutorial, level }: TutorialViewerProps) {
           imageKey={level.tutorialImageKey}
           alt={`${label} step-by-step worksheet for drawing a ${subject}`}
           sizes="(min-width: 768px) 42rem, 100vw"
-          priority
+          priority={priority}
         />
         <figcaption className="sr-only">
           Follow the numbered steps from top to bottom.
