@@ -13,12 +13,28 @@ const publicSchema = z.object({
   }),
 });
 
-function inferSiteUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return process.env.NEXT_PUBLIC_SITE_URL;
+type SiteUrlEnv = Readonly<Record<string, string | undefined>>;
+
+/**
+ * The canonical origin. Every canonical link, Open Graph URL, sitemap entry and
+ * the Sitemap line in robots.txt is built from it (lib/seo/metadata.ts), so one
+ * wrong value here points search engines at the wrong host for the whole site.
+ *
+ * A production deployment must therefore say which host it is: only the project
+ * knows whether apex or www is canonical, and the Vercel-provided hosts are
+ * per-deployment. Preview and local builds keep guessing, where a deployment
+ * URL is the right answer and nothing is indexed.
+ */
+export function inferSiteUrl(env: SiteUrlEnv = process.env): string {
+  if (env.NEXT_PUBLIC_SITE_URL) {
+    return env.NEXT_PUBLIC_SITE_URL;
   }
-  const vercelHost =
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  if (env.VERCEL_ENV === "production") {
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL must be set on production deployments: it is the canonical origin for every canonical link, sitemap entry and Open Graph URL.",
+    );
+  }
+  const vercelHost = env.VERCEL_PROJECT_PRODUCTION_URL ?? env.VERCEL_URL;
   if (vercelHost) {
     return `https://${vercelHost}`;
   }

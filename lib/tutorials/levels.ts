@@ -69,16 +69,21 @@ export function getLevelSummaries(
   }));
 }
 
+/** The levels a visitor can actually open today, easiest first. */
+export function getPublishedDifficulties(
+  tutorial: Pick<Tutorial, "levels">,
+): Difficulty[] {
+  return DIFFICULTIES.filter(
+    (difficulty) =>
+      getLevelAvailability(tutorial, difficulty) !== "coming-soon",
+  );
+}
+
 /** The level a visitor lands on: the easiest one that is actually available. */
 export function getDefaultDifficulty(
   tutorial: Pick<Tutorial, "levels">,
 ): Difficulty {
-  return (
-    DIFFICULTIES.find(
-      (difficulty) =>
-        getLevelAvailability(tutorial, difficulty) !== "coming-soon",
-    ) ?? "beginner"
-  );
+  return getPublishedDifficulties(tutorial)[0] ?? "beginner";
 }
 
 export function getNextDifficulty(difficulty: Difficulty): Difficulty | null {

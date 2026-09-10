@@ -12,11 +12,12 @@ import {
 import { LevelComingSoon } from "@/components/tutorial/level-coming-soon";
 import { RelatedTutorials } from "@/components/tutorial/related-tutorials";
 import { TutorialViewer } from "@/components/tutorial/tutorial-viewer";
+import { getPublicAssetUrl } from "@/lib/assets/public-url";
 import {
   canAccessTutorialLevel,
   type Viewer,
 } from "@/lib/entitlements/can-access-tutorial-level";
-import { createPageMetadata } from "@/lib/seo/metadata";
+import { createPageMetadata, type SocialImage } from "@/lib/seo/metadata";
 import {
   tutorialHeadline,
   tutorialSeoDescription,
@@ -26,6 +27,7 @@ import {
   getDefaultDifficulty,
   getLevel,
   getLevelSummaries,
+  getPublishedDifficulties,
   hasPublishedArtwork,
 } from "@/lib/tutorials/levels";
 import {
@@ -40,6 +42,26 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
+/**
+ * The subject's card thumbnail, which every listing page already renders, so it
+ * is public by construction and never a paid original. Levels still waiting on
+ * artwork fall back to an SVG placeholder frame; social networks mostly refuse
+ * SVG, and a blank frame is not worth previewing, so those pages get no image.
+ */
+function socialImage(tutorial: TutorialWithCategory): SocialImage | undefined {
+  const key = tutorial.featuredImageKey;
+  if (!key || key.endsWith(".svg")) {
+    return undefined;
+  }
+  return {
+    url: getPublicAssetUrl(key),
+    alt: `${tutorial.title} step-by-step drawing tutorial`,
+    // Worksheets are exported at 1024x1536 (docs/decisions.md #13).
+    width: 1024,
+    height: 1536,
+  };
+}
+
 export async function generateMetadata({
   params,
 }: PageProps<"/draw/[slug]">): Promise<Metadata> {
@@ -51,8 +73,13 @@ export async function generateMetadata({
   return createPageMetadata({
     title: tutorial.seoTitle ?? tutorialSeoTitle(tutorial.title),
     description:
-      tutorial.seoDescription ?? tutorialSeoDescription(tutorial.title),
+      tutorial.seoDescription ??
+      tutorialSeoDescription(
+        tutorial.title,
+        getPublishedDifficulties(tutorial),
+      ),
     path: `/draw/${tutorial.slug}`,
+    image: socialImage(tutorial),
   });
 }
 
@@ -106,6 +133,7 @@ export default async function TutorialPage({
     <Container className="mx-auto max-w-3xl py-8 sm:py-12">
       <Breadcrumbs
         items={[
+          { label: "Home", href: "/" },
           { label: "Tutorials", href: "/draw" },
           {
             label: tutorial.category.name,

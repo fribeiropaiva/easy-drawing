@@ -18,11 +18,25 @@ export function absoluteUrl(path: string): string {
   return path === "/" ? siteUrl : `${siteUrl}${path}`;
 }
 
+/**
+ * The picture a shared link previews with (PROJECT_PLAN.md §60). Only ever an
+ * asset the page already renders publicly: naming a paid original here would
+ * hand it to any crawler that reads the tag, with no entitlement check.
+ */
+export interface SocialImage {
+  /** Built by lib/assets; a relative path resolves against `metadataBase`. */
+  url: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 interface PageMetadataInput {
   title: string;
   description: string;
   /** Path starting with "/", resolved against metadataBase from the root layout. */
   path: string;
+  image?: SocialImage;
 }
 
 /** Consistent title, description, canonical URL and Open Graph tags for a public page. */
@@ -30,6 +44,7 @@ export function createPageMetadata({
   title,
   description,
   path,
+  image,
 }: PageMetadataInput): Metadata {
   return {
     title,
@@ -41,6 +56,7 @@ export function createPageMetadata({
       url: path,
       siteName: siteConfig.name,
       type: "website",
+      images: image ? [image] : undefined,
     },
   };
 }
